@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
 import { TabsPage } from '../pages/tabs/tabs';
-
+ //code
 @Component({
   templateUrl: 'app.html'
 })

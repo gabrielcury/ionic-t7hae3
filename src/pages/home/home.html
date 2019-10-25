@@ -1,0 +1,296 @@
+<!--ion-header>
+  <ion-navbar color="dark">
+    <ion-title>:. Tracks :.</ion-title>
+    <ion-buttons end>
+      <button *ngIf="loggedIn" color="light" ion-button icon (click)="logout()">Sair</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header-->
+
+<ion-content fullscreen>
+  <p *ngIf="auth.loading" text-center>Loading...</p>
+  <ng-template [ngIf]="!auth.loading || !loggedIn">
+
+<section class="content">
+  
+  <div class="content__middle">
+  
+    <div class="artist is-verified">
+    
+      <div class="artist__header">
+      
+        <div class="artist__info">
+        
+          <div class="profile__img">
+          
+            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/g_eazy_propic.jpg" alt="G-Eazy" />
+            
+          </div>
+          
+          <div class="artist__info__meta">
+          
+            <div class="artist__info__type">Artist</div>
+            
+            <div class="artist__info__name">G-Eazy</div>
+            
+            <div class="artist__info__actions">
+
+              <button class="button-dark" *ngIf="loggedIn">
+                <i class="ion-ios-play"></i>
+                {{auth.user?.name}}
+              </button>
+              
+              <button class="button-light" *ngIf="!loggedIn" onclick="window.open('http://google.com', '_system', 'location=yes'); return false;">Seguir</button>
+              <button class="button-light" *ngIf="loggedIn" (click)="logout()">Logout</button>
+              
+              <button class="button-light more">
+                <i class="ion-ios-more"></i>
+              </button>
+              
+            </div>
+            
+          </div>
+          
+          
+        </div>
+        
+      
+      </div>
+          
+
+      
+<div *ngIf="!loggedIn" class="artist__content">
+      
+<br />
+<br />
+<br />
+        <div class="tab-content">
+      
+          <button style="width: 100%" class="button-dark" *ngIf="!loggedIn" (click)="login()"><i class="ion-ios-play"></i>
+                Efetuar login
+              </button>
+  </div>
+</div>
+
+
+
+<div *ngIf="files.length && loggedIn" class="artist__content">
+      
+        <div class="tab-content">
+          <!-- Overview -->
+          <div role="tabpanel" class="tab-pane active" id="artist-overview">
+            
+            <div class="overview">
+        
+
+              <div class="overview__albums">
+              
+                <div class="overview__albums__head">
+                
+                  <span class="section-title">Tracks</span>
+                  
+                </div>
+                
+                <div class="album">
+                
+                  <div class="album__info">
+                  
+                    <div class="album__info__art">
+                    
+                      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/7022/whenDarkOut.jpg" alt="When It's Dark Out" />
+                      
+                    </div>
+                    
+                    <div class="album__info__meta">
+                    
+                      <div class="album__year">2019</div>
+                      
+                      <div class="album__name">When It's Dark Out</div>
+                      
+                      <div class="album__actions">
+                      
+                        <button class="button-light save" onclick="window.open('http://google.com', '_system', 'location=yes'); return false;">Share</button>
+                        
+                        <button class="button-light more">
+                          <i class="ion-ios-more"></i>
+                        </button>
+                        
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                  
+                  <div class="album__tracks">
+                  
+                    <div class="tracks">
+                      
+                      <div class="tracks__heading">
+                      
+                        <div class="tracks__heading__number">#</div>
+                        
+                        <div class="tracks__heading__title">Música</div>
+                        
+                        <div class="tracks__heading__length">
+                        
+                          <i class="ion-ios-stopwatch-outline"></i>
+                          
+                        </div>
+                        
+                        <div class="tracks__heading__popularity">
+                        
+                          <i class="ion-thumbsup"></i>
+                          
+                        </div>
+                        
+                      </div>
+
+                          <ng-container  *ngFor="let file of files; let i = index">
+                            
+                          <div class="track" (click)="openFile(file, i)">
+
+                            <div class="track__number">{{ i+1 }}</div>
+
+                            <div class="track__added">
+
+                              <i class="ion-checkmark-round added"></i>
+
+                            </div>
+
+                            <div class="track__title featured">
+                            
+                              <span class="title">{{ file.name }}</span>
+                              <span class="feature">{{ file.author }}</span>
+                              
+                            </div>
+
+                            <div class="track__explicit">
+
+                              <span class="label">Explicit</span>
+
+                            </div>
+                            
+                            <div class="track__length">{{ file.duration }}</div>
+                            
+                            <div class="track__popularity">
+                            
+                              <i class="ion-arrow-graph-down-right"></i>
+                              
+                            </div>
+
+                          </div>
+                          
+                      </ng-container>
+
+
+                      
+                        <br />      
+                                   
+                     
+                    </div>
+
+                    
+                  </div>
+          
+                  
+                </div>
+                
+              </div>
+              
+            </div>
+          
+          </div>
+          
+        </div>
+        
+      </div>
+
+      
+    </div>
+    
+  </div>
+  
+</section>
+
+
+  </ng-template>
+
+  <!--ion-list *ngIf="files.length && loggedIn">
+    <ion-list-header>Hello {{auth.user?.name}}</ion-list-header>
+    <ng-container *ngFor="let file of files; let i = index">
+      <ion-item text-wrap (click)="openFile(file, i)">
+        <ion-icon color="dark" item-start name="musical-note"></ion-icon>{{ file.name }}
+        <p item-end *ngIf="currentFile.index === i">SELECTED</p>
+        <ion-icon item-end name="play" *ngIf="currentFile.index !== i"></ion-icon>
+      </ion-item>
+    </ng-container>
+  </ion-list-->
+
+
+  <!--ion-list fullscreen *ngIf="files.length && loggedIn">
+      
+        <img src="https://ionicframework.com/docs/v1/img/siamese-dream.jpg">
+
+        <ng-container *ngFor="let file of files; let i = index">
+          
+          <ion-item (click)="openFile(file, i)">
+            <ion-thumbnail item-start>
+              <img src="{{ file.img }}">
+            </ion-thumbnail> 
+                  <h2>{{ file.author}}</h2>
+                  <p>{{ file.name }}</p>
+            <ion-icon style="font-size: 35px;" item-end name="play" *ngIf="currentFile.index !== i"></ion-icon>
+            <ion-icon style="font-size: 35px;" item-end name="pause" *ngIf="currentFile.index === i"></ion-icon>
+          </ion-item>
+
+        </ng-container>
+
+      </ion-list-->
+
+</ion-content>
+
+
+<ion-footer id="footerApp" *ngIf="loggedIn" [@showHide]="displayFooter">
+<ion-toolbar>
+<section class="current-track">
+
+  <div class="current-track__actions">
+  
+    <a class="ion-ios-skipbackward" (click)="previous()"></a>
+    
+    <a class="ion-ios-play play" *ngIf="!state.playing" (click)="play()"></a>
+    <a class="ion-ios-pause pause" *ngIf="state.playing" (click)="pause()"></a>
+    
+    <a class="ion-ios-skipforward" (click)="next()"></a>
+    
+  </div>
+  
+  <div class="current-track__progress">
+  
+    <div class="current-track__progress__start" range-left>{{ state.time }}</div>
+    
+    <div class="current-track__progress__bar">
+      
+      <div id="song-progress">
+        
+          <div class="item range range-balanced" color="secondary">
+            <ion-range min="0" color="light" [max]="state.durationSec" [formControl]="seekbar" (ionFocus)="onSeekStart()" (ionBlur)="onSeekEnd($event)"
+               name="seekbar">
+            <!--ion-label color="light" range-left>{{ state.time }}</ion-label>
+            <ion-label color="light" range-right>{{ state.duration }}</ion-label-->
+          </ion-range>
+            <!--input type="range" name="seekbar"-->
+         
+         </div>
+
+      </div>
+      
+    </div>
+    
+    <div class="current-track__progress__finish" range-right>{{ state.duration }}</div>
+    
+  </div>
+  
+</section>
+</ion-toolbar>
+</ion-footer>
